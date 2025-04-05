@@ -1,0 +1,229 @@
+{
+  "name": "Telegram",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "203c5e13-2811-4442-97d1-18f10d5e1ac7",
+      "name": "Telegram Trigger",
+      "webhookId": "85b97b27-8f24-4ab3-9a36-f90e51f8e777",
+      "credentials": {
+        "telegramApi": {
+          "id": "wlZ7iNmiqb8kCDLt",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "hello",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "17d7a6e1-ed0f-4abb-8388-ef640775ddb3"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "f5b54ce1-3c63-47c6-8685-fe86bbfc0c97",
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "time",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "25d0c603-d06c-4b9a-9a2c-22a92c5d2c38",
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "name",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        220,
+        0
+      ],
+      "id": "add76a83-ccf6-4068-a05f-89019acc7b1b",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "Hello ",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        440,
+        -120
+      ],
+      "id": "d5b73878-d5bd-4f1c-83ee-ed960e944ec0",
+      "name": "Telegram_hello",
+      "webhookId": "5e331389-68c6-40cf-ba3d-7cb04aed3ed9",
+      "credentials": {
+        "telegramApi": {
+          "id": "gz4BdOKLunhZ2NxO",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "Don't know",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        440,
+        40
+      ],
+      "id": "aa71651a-c790-4d02-bfa8-9c005a600b0a",
+      "name": "Telegram_time",
+      "webhookId": "5e331389-68c6-40cf-ba3d-7cb04aed3ed9",
+      "credentials": {
+        "telegramApi": {
+          "id": "gz4BdOKLunhZ2NxO",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "I'm bot",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        440,
+        200
+      ],
+      "id": "cce3f4cf-38dc-4276-903a-e2e1b4c6f952",
+      "name": "Telegram_ask",
+      "webhookId": "5e331389-68c6-40cf-ba3d-7cb04aed3ed9",
+      "credentials": {
+        "telegramApi": {
+          "id": "gz4BdOKLunhZ2NxO",
+          "name": "Telegram account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Telegram_hello",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Telegram_time",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Telegram_ask",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "226969b7-2131-4f88-ab83-dc5118447032",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7bb7adf3cd03e177692a758b0f49b8db2d18158ab099e58e6fbd53c99a1d15b8"
+  },
+  "id": "ByK0F27uxzNRCF9I",
+  "tags": []
+}
