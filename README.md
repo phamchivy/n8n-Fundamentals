@@ -5,4 +5,6 @@
 
 - Integrate AI/LLM models like OpenAI, Claude, Gemini, Hugging Face to create chatbots, process text, summarize content, classify information, and more.
 
+![Architecture Diagram](n8n.jpg)
+
   
